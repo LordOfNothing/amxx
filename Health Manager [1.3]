@@ -1,0 +1,38 @@
+#include <amxmodx>
+#include <amxmisc>
+#include <fun>
+#include <hamsandwich>
+
+#pragma semicolon 1
+
+
+new pCvar;
+new ctCvar;
+new tCvar;
+
+public plugin_init()
+{
+   register_plugin("Health Manager","1.1","r3p");
+   RegisterHam(Ham_Spawn, "player","player_spawn", 1);
+   ctCvar = register_cvar( "rep_ct_health" , "100" );
+   tCvar = register_cvar( "rep_t_health" , "100" );
+   pCvar = register_cvar("rep_health_enable", "1");
+}
+
+public player_spawn(id)
+{
+   if ( get_pcvar_num( pCvar ) )
+   {
+
+   if(is_user_alive(id))
+                {
+                if( get_user_team( id ) == 1 ) // tero team !
+                {
+                 set_user_health(id, get_pcvar_num( tCvar ));
+                }else if ( get_user_team( id ) == 2 )  // counter team
+                {
+                 set_user_health(id, get_pcvar_num( ctCvar ));
+      }   
+    }
+  }
+}
