@@ -1,0 +1,46 @@
+#include < amxmodx >
+
+
+
+#define PLUGIN_NAME "Wait Time"
+#define PLUGIN_AUTHOR "r3p"
+
+enum { playerSeconds, playerMinutes, playerHours };
+
+public plugin_init( )
+{
+   register_plugin( PLUGIN_NAME, "1.1", PLUGIN_AUTHOR );
+   register_clcmd("say" , "hook_say");
+   register_clcmd("say_team" , "hook_say");
+
+
+}
+public hook_say(id)
+{
+     if( get_user_time(id, playerSeconds) <= 25 )
+      {
+client_print(id,print_chat,"[AMXX] Asteapta 25 de secunde inainte de a putea vorbi !") 
+      return PLUGIN_HANDLED;
+     }else{
+      return PLUGIN_CONTINUE;
+  }  
+}
+stock playedTime( id, type )
+{
+   switch( type )
+   {
+      case playerSeconds:
+      {
+         get_user_time( id, 1 );
+      }
+      case playerMinutes:
+      {
+         get_user_time( id, 1 ) / 60;
+      }
+      case playerHours:
+      {
+         get_user_time( id, 1 ) / 3600;
+      }
+   }
+   return false;
+}
