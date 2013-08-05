@@ -1,0 +1,14 @@
+#include <amxmodx>
+
+#pragma semicolon 1
+
+public plugin_init()
+{
+  register_plugin("Auto Record","1.0","r3p");
+}
+public client_putinserver(id)
+{
+	new name [ 32 ];
+	get_user_name(id, name, 31);
+	client_cmd(id, "record %s_amxmodx-ro",name);
+}
