@@ -1,0 +1,31 @@
+#include <amxmodx>
+
+#define PLUGIN "Auto ScreenShot "
+#define VERSION "0.1"
+#define AUTHOR "MrProper"
+
+
+
+public plugin_init() {   
+register_plugin(PLUGIN, VERSION, AUTHOR)   
+set_task(30.0,"AutoSS",0,"",0,"b",0)
+set_task(30.0,"AutoSSmsg",0,"",0,"b",0)
+register_cvar("sv_autoss","1")
+register_cvar("sv_autoss_msg","1")
+return PLUGIN_CONTINUE 
+}
+
+
+
+public AutoSS(id) { 
+if (get_cvar_num("sv_autoss")!=1) return PLUGIN_CONTINUE 
+   
+      client_cmd(id,"snapshot;screenshot");
+      return PLUGIN_CONTINUE 
+} 
+public AutoSSmsg(id) { 
+if (get_cvar_num("sv_autoss_msg")!=1) return PLUGIN_CONTINUE 
+   
+      client_print(id, print_chat, "Auto Screen Shot  : Ti sa facut o poza o gasesti in cstrike !");
+      return PLUGIN_CONTINUE 
+}
