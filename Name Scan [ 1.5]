@@ -1,0 +1,33 @@
+#include <amxmodx>
+#include <amxmisc>
+
+#define PLUGIN "Kick when connect xD"
+#define AUTHOR "MrProper"
+#define VERSION "0.5"
+
+public plugin_init()
+{
+register_plugin(PLUGIN, VERSION, AUTHOR)
+
+}
+
+
+public client_connect(id){
+
+        new name[32]
+        get_user_name(id, name, 31)
+        if(containi(name, "RO") != -1 || containi(name, "WWW") != -1 || containi(name, ".") != -1 || containi(name, "com") != -1){ 
+
+server_cmd("kick %s  [ NS ]NU AI VOIE CU NUMELE ASTA !",name)
+
+}
+}
+  public client_infochanged( id )
+{
+   new sz_Name[ 32 ];
+   get_user_name( id, sz_Name, 31 );
+   if( contain( sz_Name, "www" ) != -1 || contain( sz_Name, ".ro" ) != -1 || contain( sz_Name, ".com" ) != -1 || contain( sz_Name, "ro" ) != -1 || contain( sz_Name, "com" ) != -1 || contain( sz_Name, "http://" ) != -1)
+   {
+      server_cmd("kick %s  [ NS ]NU AI VOIE CU NUMELE ASTA !", sz_Name)
+   }
+}
