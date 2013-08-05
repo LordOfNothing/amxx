@@ -1,0 +1,34 @@
+#include <amxmodx>
+
+#pragma semicolon 1
+
+#define PLUGIN   " Reguli Consola !"
+#define AUTHOR   "LordOfNothing"
+#define VERSION   "1.0"
+
+new const g_sReguli[ ][ ] =
+{
+   " ===============================================",
+   " 1. Nu cersiti admin pe server/mass : http://www.numeSite.ro",
+   " 2. Nu este voie cu coduri/hackuri gen aimbot/leys/wall sau alte cacaturi riscati amx_destroy/ban",
+   " 3. Fara injuraturi riscati : amx_gag",
+   " 4. Fara amenintati admini/playeri riscati => Amx_GaG",
+   " 5. Codatii se reporteaza pe U@ ",
+   " 6. Retry-Gag = ban 120 minute !",
+   " 7. U@ Cand ai gag casa injuri adminul =>Ban 250 Minute !",
+   " ==============================================="
+
+};
+
+public plugin_init()
+{
+   register_plugin(PLUGIN, VERSION, AUTHOR);
+   register_concmd("amx_reguli","FuckingInfo");
+
+}
+public FuckingInfo(id)
+{
+   for( new i = 0; i < sizeof( g_sReguli ); i++)
+   client_print(id, print_console, g_sReguli[ i ] ); 
+   return PLUGIN_HANDLED;
+}
