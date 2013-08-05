@@ -1,0 +1,33 @@
+#include <amxmodx> 
+#include <cstrike> 
+#include <fun>
+
+new rsCvar;
+
+public plugin_init() 
+{ 
+   register_plugin("ReSetScore","1.0","Ping") 
+   register_clcmd("say /rs","XRS") 
+   register_clcmd("say_team /rs","XRS") 
+   register_clcmd("say /reset","XRS")
+   register_clcmd("say_team /reset", "XRS")
+   register_clcmd("say /resetscore","XRS") 
+   register_clcmd("say_team /resetscore","XRS") 
+   rsCvar = register_cvar("sv_rs","1")
+   
+} 
+
+public XRS(id) 
+{ 
+   if(is_user_alive(id))
+   {
+      if(get_pcvar_num( rsCvar ))
+      {
+         set_user_frags(id, 0) 
+         cs_set_user_deaths(id, 0) 
+         client_print(id, print_chat, "Succesfuly reset your score !") 
+      }else{
+         client_print(id, print_chat, "Sory, server disabled that option !")
+      } 
+   }
+}
