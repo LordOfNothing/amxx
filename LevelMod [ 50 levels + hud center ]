@@ -104,7 +104,7 @@ public drxp_spawn(id)
 	}
 	
 	if(drxp_playerlevel[id] > 0)
-		set_user_health(id, get_user_health(id) + 5*drxp_playerlevel[id]);
+		set_user_health(id, get_user_health(id) + 10*drxp_playerlevel[id]);
         if(drxp_playerlevel[id] > 40)
 		set_user_gravity(id, 0.9);
 	
