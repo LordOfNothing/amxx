@@ -11,6 +11,7 @@ Connect HnsX.playnolimit.ro
 #include <fun>
 #include <hamsandwich>
 #include <nvault>
+#include <cstrike>
 
 new const PLUGIN_NAME[] = "GameMode XP";
 
@@ -90,6 +91,8 @@ public plugin_init()
 	register_concmd("amx_level", "cmd_give_level", ADMIN_IMMUNITY, "<target> <amount>"); 
                 register_concmd("amx_takelevel", "cmd_take_level", ADMIN_IMMUNITY, "<target> <amount>");  
 
+               RegisterHam(Ham_Spawn, "player", "FwdPlayerSpawn", 1);
+
 }
 
 public hnsxp_spawn(id)
@@ -106,9 +109,27 @@ public hnsxp_spawn(id)
 	if(hnsxp_playerlevel[id] > 0)
 		set_user_health(id, get_user_health(id) + 5*hnsxp_playerlevel[id]);
         if(hnsxp_playerlevel[id] >= 50)
-		set_user_gravity(id, 0.6);
+		set_user_gravity(id, 0.7);
 
 
+}
+
+
+public FwdPlayerSpawn(id)
+{
+
+    set_task(11.0, "gItem", id);
+ 
+}
+public gItem(id)
+{
+
+    if(hnsxp_playerlevel[id] >= 50)
+        give_item(id,  "weapon_deagle") 
+        cs_set_user_bpammo(id,CSW_DEAGLE,0)
+
+ 
+ 
 }
  
 public hnsxp_death() 
@@ -216,28 +237,28 @@ public cmd_give_level(id, level, cid)
 { 
 	if(!cmd_access(id, level, cid, 3)) 
 		return PLUGIN_HANDLED
-	
+
 	new target[32], amount[21], reason[21]
-	
+
 	read_argv(1, target, 31)
 	read_argv(2, amount, 20)
 	read_argv(3, reason, 20)
-	
+
 	new player = cmd_target(id, target, 8)
-	
+
 	if(!player)  
 		return PLUGIN_HANDLED
-	
+
 	new admin_name[32], player_name[32]
 	get_user_name(id, admin_name, 31)
 	get_user_name(player, player_name, 31)
-	
+
 	new expnum = str_to_num(amount)
 	MesajColorat(0, "!echipaADMIN %s: !verdeia dat %s level lui %s", admin_name, amount, player_name)
-	
+
 	hnsxp_playerlevel[player] += expnum
 	SaveData(id)
-	
+
 	return PLUGIN_CONTINUE
 } 
 
@@ -245,29 +266,29 @@ public cmd_take_level(id, level, cid)
 { 
 	if(!cmd_access(id, level, cid, 3)) 
 		return PLUGIN_HANDLED
-	
+
 	new target[32], amount[21], reason[21]
-	
+
 	read_argv(1, target, 31)
 	read_argv(2, amount, 20)
 	read_argv(3, reason, 20)
-	
+
 	new player = cmd_target(id, target, 8) 
-	
+
 	if(!player)  
 		return PLUGIN_HANDLED
-	
+
 	new admin_name[32], player_name[32]
-	
+
 	get_user_name(id, admin_name, 31)
 	get_user_name(player, player_name, 31)
-	
+
 	new expnum = str_to_num(amount)
 	MesajColorat(0, "!echipaADMIN %s: !verdeia luat %s level lui %s", admin_name, amount, player_name)
-	
+
 	hnsxp_playerlevel[player] -= expnum
 	SaveData(id) 
-	
+
 	return PLUGIN_CONTINUE
 }
 
