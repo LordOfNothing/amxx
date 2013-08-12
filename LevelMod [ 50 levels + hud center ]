@@ -106,7 +106,7 @@ public hnsxp_spawn(id)
 	if(hnsxp_playerlevel[id] > 0)
 		set_user_health(id, get_user_health(id) + 5*hnsxp_playerlevel[id]);
         if(hnsxp_playerlevel[id] >= 50)
-		set_user_gravity(id, 0.5);
+		set_user_gravity(id, 0.6);
 
 
 }
