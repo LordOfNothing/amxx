@@ -14,16 +14,16 @@ Connect HnsX.playnolimit.ro
 
 new const PLUGIN_NAME[] = "GameMode XP";
 
-new const hnsxp_version[] = "3.1";
+new const hnsxp_version[] = "3.2";
 
 new const LEVELS[50] = {
   
 	1000,  // 1
 	2000,  // 2 
 	3000,  // 3
-	3500,  // 4
-	4000,  // 5
-	4500, // 6
+	4000,  // 4
+	5000,  // 5
+	5500, // 6
 	6000, // 7
 	6500,  // 8
 	7000, // 10
@@ -94,7 +94,7 @@ public plugin_init()
 
 public hnsxp_spawn(id)
 {
-	if((hnsxp_playerlevel[id] < 10) && (hnsxp_playerxp[id] >= LEVELS[hnsxp_playerlevel[id]]))
+	if((hnsxp_playerlevel[id] < 50) && (hnsxp_playerxp[id] >= LEVELS[hnsxp_playerlevel[id]]))
 	{
 		MesajColorat(id,"!echipa[%s] !verdeBravo sefule , ai trecut levelul", PLUGIN_NAME);
 		while(hnsxp_playerxp[id] >= LEVELS[hnsxp_playerlevel[id]])
@@ -104,11 +104,9 @@ public hnsxp_spawn(id)
 	}
 
 	if(hnsxp_playerlevel[id] > 0)
-		set_user_health(id, get_user_health(id) + 3*hnsxp_playerlevel[id]);
-        if(hnsxp_playerlevel[id] > 40)
-		set_user_gravity(id, 0.7);
-    if(hnsxp_playerlevel[id] > 25)
-		give_item(id, "weapon_deagle");
+		set_user_health(id, get_user_health(id) + 5*hnsxp_playerlevel[id]);
+        if(hnsxp_playerlevel[id] >= 50)
+		set_user_gravity(id, 0.5);
 
 
 }
