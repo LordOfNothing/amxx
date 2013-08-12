@@ -7,8 +7,7 @@ public client_PreThink(id)
 {
 if(is_user_alive(id))
 {
-if(get_user_flags(id) & ADMIN_IMMUNITY)
-{
+
 
 new oldbuttons = get_user_oldbutton(id);
 
@@ -16,5 +15,5 @@ new oldbuttons = get_user_oldbutton(id);
 oldbuttons &= ~IN_JUMP;
 entity_set_int(id, EV_INT_oldbuttons, oldbuttons);
      }
-   }
-}
+ }
+
