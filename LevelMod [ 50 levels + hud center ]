@@ -131,20 +131,26 @@ public FwdPlayerSpawn(id)
 public plvl(id)
 {
 
-    MesajColorat(id, "!verdeLevel : !echipa  %i , !verdeXP: !echipa  %i ", hnsxp_playerlevel[id], hnsxp_playerxp[id]);
+    MesajColorat(id, "!echipa[HNSX.PLAYNOLIMIT.RO]!verdeLevel : !echipa  %i , !verdeXP: !echipa  %i ", hnsxp_playerlevel[id], hnsxp_playerxp[id]);
  
 }
 public gItem(id)
 {
 
-    if(hnsxp_playerlevel[id] >= 50)
-        give_item(id,  "weapon_deagle") 
-        cs_set_user_bpammo(id,CSW_DEAGLE,0)
+    if(hnsxp_playerlevel[id] >= 10)
+       cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 1)
+       cs_set_user_bpammo( id, CSW_DEAGLE, 0 )  
+
+
+    if(hnsxp_playerlevel[id] >= 20)
+       cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 2)
+       cs_set_user_bpammo( id, CSW_DEAGLE, 0 );  
+ 
 
  
  
 }
- 
+
 public hnsxp_death() 
 {
 	new iVictim = read_data(2);
