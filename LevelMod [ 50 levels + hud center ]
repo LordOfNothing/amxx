@@ -85,18 +85,24 @@ public plugin_init()
 	hnsxp_knife = register_cvar("hnsxp_knife","100");
 	hnsxp_grenade = register_cvar("hnsxp_grenade","100");
 	hnsxp_hs = register_cvar("hnsxp_hs","100");
-
+           
+        register_clcmd("say /level","plvl");
+        register_clcmd("say /xp","plvl");
+        register_clcmd("say_team /level","plvl");
+        register_clcmd("say_team /xp","plvl");
 	g_hnsxp_vault = nvault_open("deathrun_xp");
  
+
 	register_concmd("amx_level", "cmd_give_level", ADMIN_IMMUNITY, "<target> <amount>"); 
                 register_concmd("amx_takelevel", "cmd_take_level", ADMIN_IMMUNITY, "<target> <amount>");  
 
-               RegisterHam(Ham_Spawn, "player", "FwdPlayerSpawn", 1);
+        RegisterHam(Ham_Spawn, "player", "FwdPlayerSpawn", 1);
 
 }
 
 public hnsxp_spawn(id)
 {
+MesajColorat(id, "!verdeLevel : !echipa  %i , !verdeXP: !echipa  %i ", hnsxp_playerlevel[id], hnsxp_playerxp[id]);
 	if((hnsxp_playerlevel[id] < 50) && (hnsxp_playerxp[id] >= LEVELS[hnsxp_playerlevel[id]]))
 	{
 		MesajColorat(id,"!echipa[%s] !verdeBravo sefule , ai trecut levelul", PLUGIN_NAME);
@@ -119,6 +125,13 @@ public FwdPlayerSpawn(id)
 {
 
     set_task(11.0, "gItem", id);
+ 
+}
+
+public plvl(id)
+{
+
+    MesajColorat(id, "!verdeLevel : !echipa  %i , !verdeXP: !echipa  %i ", hnsxp_playerlevel[id], hnsxp_playerxp[id]);
  
 }
 public gItem(id)
