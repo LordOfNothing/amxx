@@ -18,7 +18,7 @@ new const PLUGIN_NAME[] = "GameMode XP";
 new const hnsxp_version[] = "3.2";
 
 new const LEVELS[50] = {
-  
+	
 	1000,  // 1
 	2000,  // 2 
 	3000,  // 3
@@ -76,33 +76,33 @@ new hnsxp_kill, hnsxp_knife, hnsxp_grenade, hnsxp_hs, hnsxp_savexp, g_hnsxp_vaul
 public plugin_init()
 {
 	register_plugin(PLUGIN_NAME, hnsxp_version, "KronoS");
-
+	
 	RegisterHam(Ham_Spawn, "player", "hnsxp_spawn", 1);
 	register_event("DeathMsg", "hnsxp_death", "a");
-
+	
 	hnsxp_savexp = register_cvar("hnsxp_savexp","1");
 	hnsxp_kill = register_cvar("hnsxp_kill", "100");
 	hnsxp_knife = register_cvar("hnsxp_knife","100");
 	hnsxp_grenade = register_cvar("hnsxp_grenade","100");
 	hnsxp_hs = register_cvar("hnsxp_hs","100");
-           
-        register_clcmd("say /level","plvl");
-        register_clcmd("say /xp","plvl");
-        register_clcmd("say_team /level","plvl");
-        register_clcmd("say_team /xp","plvl");
+	
+	register_clcmd("say /level","plvl");
+	register_clcmd("say /xp","plvl");
+	register_clcmd("say_team /level","plvl");
+	register_clcmd("say_team /xp","plvl");
 	g_hnsxp_vault = nvault_open("deathrun_xp");
- 
-
+	
+	
 	register_concmd("amx_level", "cmd_give_level", ADMIN_IMMUNITY, "<target> <amount>"); 
-                register_concmd("amx_takelevel", "cmd_take_level", ADMIN_IMMUNITY, "<target> <amount>");  
-
-        RegisterHam(Ham_Spawn, "player", "FwdPlayerSpawn", 1);
-
+	register_concmd("amx_takelevel", "cmd_take_level", ADMIN_IMMUNITY, "<target> <amount>");  
+	
+	RegisterHam(Ham_Spawn, "player", "FwdPlayerSpawn", 1);
+	
 }
 
 public hnsxp_spawn(id)
 {
-MesajColorat(id, "!verdeLevel : !echipa  %i , !verdeXP: !echipa  %i ", hnsxp_playerlevel[id], hnsxp_playerxp[id]);
+	MesajColorat(id, "!verdeLevel : !echipa  %i , !verdeXP: !echipa  %i ", hnsxp_playerlevel[id], hnsxp_playerxp[id]);
 	if((hnsxp_playerlevel[id] < 50) && (hnsxp_playerxp[id] >= LEVELS[hnsxp_playerlevel[id]]))
 	{
 		MesajColorat(id,"!echipa[%s] !verdeBravo sefule , ai trecut levelul", PLUGIN_NAME);
@@ -111,70 +111,66 @@ MesajColorat(id, "!verdeLevel : !echipa  %i , !verdeXP: !echipa  %i ", hnsxp_pla
 			hnsxp_playerlevel[id] += 1;
 		}
 	}
-
+	
 	if(hnsxp_playerlevel[id] > 0)
 		set_user_health(id, get_user_health(id) + 5*hnsxp_playerlevel[id]);
-        if(hnsxp_playerlevel[id] >= 50)
+	if(hnsxp_playerlevel[id] >= 50)
 		set_user_gravity(id, 0.7);
-
-
+	
+	
 }
 
 
 public FwdPlayerSpawn(id)
 {
-
-    set_task(11.0, "gItem", id);
- 
+	
+	set_task(11.0, "gItem", id);
+	
 }
 
 public plvl(id)
 {
-
-    MesajColorat(id, "!echipa[HNSX.PLAYNOLIMIT.RO]!verdeLevel : !echipa  %i , !verdeXP: !echipa  %i ", hnsxp_playerlevel[id], hnsxp_playerxp[id]);
- 
+	
+	MesajColorat(id, "!echipa[HNSX.PLAYNOLIMIT.RO]!verdeLevel : !echipa  %i , !verdeXP: !echipa  %i ", hnsxp_playerlevel[id], hnsxp_playerxp[id]);
+	
 }
 public gItem(id)
 {
-
-    if(hnsxp_playerlevel[id] >= 10)
-       cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 1)
-       cs_set_user_bpammo( id, CSW_DEAGLE, 0 )  
-
-
-    if(hnsxp_playerlevel[id] >= 20)
-       cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 2)
-       cs_set_user_bpammo( id, CSW_DEAGLE, 0 );  
- 
-
- 
- 
+	
+	if(hnsxp_playerlevel[id] >= 15)
+		cs_set_weapon_ammo(give_item(id, "weapon_deagle"), 1)
+	cs_set_user_bpammo( id, CSW_DEAGLE, 0 )  
+	
+	
+	
+	
+	
 }
 
 public hnsxp_death() 
 {
 	new iVictim = read_data(2);
 	new weapon, hitplace, attacker = get_user_attacker(iVictim,weapon,hitplace);
-
+	
 	new victimname[32], wvar[32];
 	get_user_name(iVictim,victimname,31);
 	read_data(4, wvar, 31);
-
+	
 	if(equal(wvar, "world", 5))
 		return;
-
+	
 	if(attacker < 1 || attacker > 32)
 		return;
-
+	
 	hnsxp_playerxp[attacker] += get_pcvar_num(hnsxp_kill);
 	MesajColorat(attacker,"!echipa[%s] !verdeAi primit %i XP pentru ca l-ai omorat pe %s!", PLUGIN_NAME, get_pcvar_num(hnsxp_grenade), victimname);
-
+	
 	if(hitplace == HIT_HEAD)
 	{
 		hnsxp_playerxp[attacker] += get_pcvar_num(hnsxp_hs);
 		MesajColorat(attacker,"!echipa[%s] !verdeAi primit %i XP pentru ca l-ai omorat pe %s cu headshot!", PLUGIN_NAME, get_pcvar_num(hnsxp_hs), victimname);
 	}
-
+	
 	if(weapon == CSW_KNIFE)
 	{
 		hnsxp_playerxp[attacker] += get_pcvar_num(hnsxp_knife);
@@ -185,18 +181,18 @@ public hnsxp_death()
 		hnsxp_playerxp[attacker] += get_pcvar_num(hnsxp_grenade);
 		MesajColorat(attacker,"!echipa[%s] !verdeAi primit %i XP pentru ca l-ai omorat %s cu HE!", PLUGIN_NAME, get_pcvar_num(hnsxp_grenade), victimname);
 	}
-
+	
 	hnsxp_hudinfo(attacker);
 }
 
 public hnsxp_hudinfo(id)
 {
-	set_hudmessage(255, 255, 0, 0.41, 0.46, 0, 6.0, 3.0);
+	set_hudmessage(255, 0, 0, 0.47, 0.48, 0, 6.0, 3.0);
 	if(hnsxp_playerlevel[id] < 50)
 		show_hudmessage(id, "Level: %i^nXP: %i ", hnsxp_playerlevel[id], hnsxp_playerxp[id], LEVELS[hnsxp_playerlevel[id] + 1]);
 	else
 		show_hudmessage(id, "Level: %i^nLevel Maxim !", hnsxp_playerlevel[id]);
-
+	
 	set_task(2.0, "hnsxp_hudinfo", id);
 }
 
@@ -204,7 +200,7 @@ public client_putinserver(id)
 {
 	if(get_pcvar_num(hnsxp_savexp) == 1)
 		LoadData(id);
-
+	
 	set_task(10.0, "hnsxp_hudinfo", id);
 }
 
@@ -212,7 +208,7 @@ public client_disconnect(id)
 {
 	if(get_pcvar_num(hnsxp_savexp) == 1)
 		SaveData(id);
-
+	
 	hnsxp_playerxp[id] = 0;
 	hnsxp_playerlevel[id] = 0;
 }
@@ -221,7 +217,7 @@ public SaveData(id)
 {
 	new PlayerName[35];
 	get_user_name(id,PlayerName,34);
-
+	
 	new vaultkey[64],vaultdata[256];
 	format(vaultkey,63,"%s",PlayerName);
 	format(vaultdata,255,"%i#%i#",hnsxp_playerxp[id],hnsxp_playerlevel[id]);
@@ -233,21 +229,21 @@ public LoadData(id)
 {
 	new PlayerName[35];
 	get_user_name(id,PlayerName,34);
-
+	
 	new vaultkey[64],vaultdata[256];
 	format(vaultkey,63,"%s",PlayerName);
 	format(vaultdata,255,"%i#%i#",hnsxp_playerxp[id],hnsxp_playerlevel[id]);
 	nvault_get(g_hnsxp_vault,vaultkey,vaultdata,255);
-
+	
 	replace_all(vaultdata, 255, "#", " ");
-
+	
 	new playerxp[32], playerlevel[32];
-
+	
 	parse(vaultdata, playerxp, 31, playerlevel, 31);
-
+	
 	hnsxp_playerxp[id] = str_to_num(playerxp);
 	hnsxp_playerlevel[id] = str_to_num(playerlevel);
-
+	
 	return PLUGIN_CONTINUE;
 }  
 
@@ -256,28 +252,28 @@ public cmd_give_level(id, level, cid)
 { 
 	if(!cmd_access(id, level, cid, 3)) 
 		return PLUGIN_HANDLED
-
+	
 	new target[32], amount[21], reason[21]
-
+	
 	read_argv(1, target, 31)
 	read_argv(2, amount, 20)
 	read_argv(3, reason, 20)
-
+	
 	new player = cmd_target(id, target, 8)
-
+	
 	if(!player)  
 		return PLUGIN_HANDLED
-
+	
 	new admin_name[32], player_name[32]
 	get_user_name(id, admin_name, 31)
 	get_user_name(player, player_name, 31)
-
+	
 	new expnum = str_to_num(amount)
 	MesajColorat(0, "!echipaADMIN %s: !verdeia dat %s level lui %s", admin_name, amount, player_name)
-
+	
 	hnsxp_playerlevel[player] += expnum
 	SaveData(id)
-
+	
 	return PLUGIN_CONTINUE
 } 
 
@@ -285,29 +281,29 @@ public cmd_take_level(id, level, cid)
 { 
 	if(!cmd_access(id, level, cid, 3)) 
 		return PLUGIN_HANDLED
-
+	
 	new target[32], amount[21], reason[21]
-
+	
 	read_argv(1, target, 31)
 	read_argv(2, amount, 20)
 	read_argv(3, reason, 20)
-
+	
 	new player = cmd_target(id, target, 8) 
-
+	
 	if(!player)  
 		return PLUGIN_HANDLED
-
+	
 	new admin_name[32], player_name[32]
-
+	
 	get_user_name(id, admin_name, 31)
 	get_user_name(player, player_name, 31)
-
+	
 	new expnum = str_to_num(amount)
 	MesajColorat(0, "!echipaADMIN %s: !verdeia luat %s level lui %s", admin_name, amount, player_name)
-
+	
 	hnsxp_playerlevel[player] -= expnum
 	SaveData(id) 
-
+	
 	return PLUGIN_CONTINUE
 }
 
@@ -316,11 +312,11 @@ stock MesajColorat(const id, const input[], any:...)
 	new count = 1, players[32]
 	static msg[191]
 	vformat(msg, 190, input, 3)
-
+	
 	replace_all(msg, 190, "!verde", "^4")
 	replace_all(msg, 190, "!normal", "^1")
 	replace_all(msg, 190, "!echipa", "^3")
-
+	
 	if (id) players[0] = id; else get_players(players, count, "ch")
 {
 	for (new i = 0; i < count; i++)
