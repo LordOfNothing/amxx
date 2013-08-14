@@ -2,7 +2,7 @@
 
 Autor : KronoS
 Editor,Updater : LordOfNothing , BurningSkeleton
-Versiune :3.2
+Versiune :3.4
 Connect HnsX.playnolimit.ro
 ==================================================*/
 
@@ -15,7 +15,7 @@ Connect HnsX.playnolimit.ro
 
 new const PLUGIN_NAME[] = "GameMode XP";
 
-new const hnsxp_version[] = "3.2";
+new const hnsxp_version[] = "3.3";
 
 new const LEVELS[50] = {
 	
@@ -90,6 +90,7 @@ public plugin_init()
 	register_clcmd("say /xp","plvl");
 	register_clcmd("say_team /level","plvl");
 	register_clcmd("say_team /xp","plvl");
+	register_clcmd("say /lvl","tlvl");
 	g_hnsxp_vault = nvault_open("deathrun_xp");
 	
 	
@@ -102,10 +103,10 @@ public plugin_init()
 
 public hnsxp_spawn(id)
 {
-	MesajColorat(id, "!verdeLevel : !echipa  %i , !verdeXP: !echipa  %i ", hnsxp_playerlevel[id], hnsxp_playerxp[id]);
+	MesajColorat(id, "!echipa[Level Mod] !verdeLevel : !echipa  %i , !verdeXP: !echipa  %i ", hnsxp_playerlevel[id], hnsxp_playerxp[id]);
 	if((hnsxp_playerlevel[id] < 50) && (hnsxp_playerxp[id] >= LEVELS[hnsxp_playerlevel[id]]))
 	{
-		MesajColorat(id,"!echipa[%s] !verdeBravo sefule , ai trecut levelul", PLUGIN_NAME);
+		MesajColorat(id,"!echipa[%s] !verdeAi trecut levelul", PLUGIN_NAME);
 		while(hnsxp_playerxp[id] >= LEVELS[hnsxp_playerlevel[id]])
 		{
 			hnsxp_playerlevel[id] += 1;
@@ -116,6 +117,7 @@ public hnsxp_spawn(id)
 		set_user_health(id, get_user_health(id) + 5*hnsxp_playerlevel[id]);
 	if(hnsxp_playerlevel[id] >= 50)
 		set_user_gravity(id, 0.7);
+	
 	
 	
 }
@@ -131,7 +133,14 @@ public FwdPlayerSpawn(id)
 public plvl(id)
 {
 	
-	MesajColorat(id, "!echipa[HNSX.PLAYNOLIMIT.RO]!verdeLevel : !echipa  %i , !verdeXP: !echipa  %i ", hnsxp_playerlevel[id], hnsxp_playerxp[id]);
+	MesajColorat(id, "!echipa[Level Mod] !verdeLevel : !echipa  %i , !verdeXP: !echipa  %i ", hnsxp_playerlevel[id], hnsxp_playerxp[id]);
+	
+}
+public tlvl(id)
+{
+	new poj_Name [ 32 ];
+	get_user_name(id, poj_Name, 31)
+	MesajColorat(0, "!verde[!echipaLevel-Mod!verde] !normal Jucatorul !verde %s !normalare level !verde %i",poj_Name, hnsxp_playerlevel[id]);
 	
 }
 public gItem(id)
@@ -187,7 +196,7 @@ public hnsxp_death()
 
 public hnsxp_hudinfo(id)
 {
-	set_hudmessage(255, 0, 0, 0.47, 0.48, 0, 6.0, 3.0);
+	set_hudmessage(255, 127, 42, 0.44, 0.47, 0, 6.0, 3.0);
 	if(hnsxp_playerlevel[id] < 50)
 		show_hudmessage(id, "Level: %i^nXP: %i ", hnsxp_playerlevel[id], hnsxp_playerxp[id], LEVELS[hnsxp_playerlevel[id] + 1]);
 	else
