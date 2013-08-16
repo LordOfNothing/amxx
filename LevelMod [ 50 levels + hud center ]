@@ -2,7 +2,7 @@
 
 Autor : KronoS
 Editor,Updater : LordOfNothing 
-Versiune : 3.4
+Versiune : 3.5
 Connect HNS.LANEIX.COM
 ==================================================*/
 
@@ -15,7 +15,7 @@ Connect HNS.LANEIX.COM
 
 new const PLUGIN_NAME[] = "GameMode XP";
 
-new const hnsxp_version[] = "3.3";
+new const hnsxp_version[] = "3.5";
 
 new const LEVELS[50] = {
 	
