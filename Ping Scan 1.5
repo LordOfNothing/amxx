@@ -1,0 +1,44 @@
+#include <amxmodx>
+
+#define PLUGIN_NAME "Ping Scan"
+#define PLUGIN_AUTHOR "LordOfNothing"
+#define PLUGIN_VERSION "1.5"
+
+new pCvar;
+
+public plugin_init( )
+{
+    register_plugin( PLUGIN_NAME, PLUGIN_VERSION, PLUGIN_AUTHOR );
+    
+    set_task(1.0 ,"scanner_PING", 0, "", 0, "b") 
+    
+    pCvar = register_cvar("sv_maxping","80");
+    
+}
+
+public scanner_PING()
+{
+    new players[32], pnum, id, userid 
+    new name[33]
+    get_players(players, pnum) 
+    
+    new iMax = get_pcvar_num(pCvar)
+    
+    for( new i; i<pnum; i++ )  
+    {
+        id = players[i]
+        
+        
+        static Ping,Loss;
+        get_user_ping(id, Ping, Loss);
+        
+        if( Ping > iMax ) 
+        {
+            userid = get_user_userid(id)
+            get_user_name(id, name ,charsmax(name))
+            
+            server_cmd("kick #%d You have ping !",userid)
+            client_print(0, print_chat, "[ Ping Scan ] %s has been kicked for high ping !",name); 
+        }
+    }
+} 
